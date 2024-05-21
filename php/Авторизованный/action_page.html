@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+	<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.10/css/ripples.min.css"/>
+    <link rel="stylesheet" href="bootstrap-material-datetimepicker-gh-pages/css/bootstrap-material-datetimepicker.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="css/style.css">
+	</head>
+	<body>
+<?php require_once("includes/connection.php");?>
+<?php
+
+			if(isset($_POST["registr"])){
+			if(!empty(!empty($_POST['Mail']) && !empty($_POST['Login']) && !empty($_POST['Password'])) {
+			$Mail=htmlspecialchars($_POST['Mail']);
+			$Login=htmlspecialchars($_POST['Login']);
+			$Password=htmlspecialchars($_POST['Password']);
+			$query=mysqli_query($con,"SELECT * FROM kurs WHERE Mail='".$Mail."'");
+			$numrows=mysqli_num_rows($query);
+			if($numrows==0)
+			 {
+			$sql="INSERT INTO kurs
+			(Mail, Login, Password)
+			VALUES('".$Mail."', '".$Login."', '".$Password."')";
+			$result=mysqli_query($con,$sql);
+			if($result){
+			$message = "Аккаунт успешно создан!";
+			} else {
+			$message = "Не удалось вставить информацию о данных!";
+			}
+			} else {
+			$message = "Данная почта уже используется!";
+			 }
+			} else {
+			$message = "Все поля обязательны для заполнения!";
+			}
+		}
+?>
+<div id="message">
+	<?php if (!empty($message)) {echo "<p class='error'>" . "Ошибка: ". $message . "</p>";}?>
+</div>
+<script>
+$(function(){
+	$("#message").delay(5000).slideUp(300);
+});
+</script>
+			<link rel="stylesheet" href="css/style1.css">
+			<div class="container mregister">
+			<div id="login">
+			<h1>Регистрация</h1>
+			<form action="" id="registerform" method="post"name="registerform">
+			<p><label for="user_pass">Mail<br>
+			<input class="input" id="Mail" name="Mail" size="32"type="email" value=""></label></p>
+			<p><label for="user_pass">Логин<br>
+			<input class="input" id="Login" name="Login"size="20" type="text" value=""></label></p>
+			<p><label for="user_pass">Пароль<br>
+			<input class="input" id="Password" name="Password"size="32"   type="Password" value=""></label></p>
+			<p class="submit"><input class="button" id="register" name= "register" type="submit" value="Зарегистрироваться"></p>
+				<p class="regtext">Уже зарегистрированы? <a class="gr" href="javascript:PopUpShow1()">Авторизация</a>! <br> <a class="gr" href="javascript:PopUpHide()">Закрыть</a>
+			</div></p>
+			</form>
+			<footer>
+			© 2021 <a class="gr" href="http://www.1stwebdesigner.com/">1stwebdesigner</a>. Все права защищены.
+			 </footer>
+</body>
+</html>
